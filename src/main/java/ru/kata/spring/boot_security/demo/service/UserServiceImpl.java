@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
-public class UserServiceImpl implements UserDetailsService {
+public class UserServiceImpl implements UserService, UserDetailsService {
 
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
@@ -30,16 +30,19 @@ public class UserServiceImpl implements UserDetailsService {
         this.roleService = roleService;
     }
 
+    @Override
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
 
+    @Override
     public List<User> findAllUsers() {
         List<User> users = userRepository.findAll();
         return users;
     }
 
-    public User save(User user) {
+    @Override
+    public User saveUser(User user) {
         return userRepository.save(user);
     }
 
@@ -52,6 +55,7 @@ public class UserServiceImpl implements UserDetailsService {
         return user;
     }
 
+    @Override
     public void deleteUser(Long id){
         userRepository.deleteById(id);
     }
@@ -61,6 +65,7 @@ public class UserServiceImpl implements UserDetailsService {
                 .orElseThrow(()-> new UsernameNotFoundException("Пользователь не найден"));
     }
 
+    @Override
     public void createUserWithRoles(User user, List<Long> roleIds) {
         Set<Role> roles;
         if(roleIds != null && !roleIds.isEmpty()) {
@@ -72,6 +77,7 @@ public class UserServiceImpl implements UserDetailsService {
         userRepository.save(user);
     }
 
+    @Override
     public void updateUserWithRoles(Long id, User updatedUser, List<Long> roleIds) {
 
         User existing = findById(id);
@@ -88,6 +94,7 @@ public class UserServiceImpl implements UserDetailsService {
         userRepository.save(existing);
     }
 
+    @Override
     public void deleteUserWithChecks(Long id, String currentUsername) {
         User userToDelete = findById(id);
 
@@ -97,10 +104,19 @@ public class UserServiceImpl implements UserDetailsService {
 
         if (currentUsername.equals(userToDelete.getUsername())) {
             userRepository.deleteById(id);
-            // Здесь можно добавить логику выхода из системы, если нужно
         } else {
             userRepository.deleteById(id);
         }
+    }
+
+    @Override
+    public boolean isAdmin(User user) {
+        return true;
+    }
+
+    @Override
+    public boolean hasRole(User user, String role) {
+        return true;
     }
 
     public String getFormattedRoles(Set<Role> roles) {
