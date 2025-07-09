@@ -41,8 +41,6 @@ public class User implements UserDetails {
     )
     private Set<Role> roles = new HashSet<>();
 
-    private String formattedRoles;
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles;
@@ -121,18 +119,6 @@ public class User implements UserDetails {
 
     public void setAge(int age) {
         this.age = age;
-    }
-
-    public String getFormattedRoles() {
-        return formattedRoles;
-    }
-
-    public String getGetFormattedRoles() {
-        return formattedRoles;
-    }
-
-    public void setGetFormattedRoles(String getFormattedRoles) {
-        this.formattedRoles = getFormattedRoles;
     }
 
     public void setUsername(String username) {

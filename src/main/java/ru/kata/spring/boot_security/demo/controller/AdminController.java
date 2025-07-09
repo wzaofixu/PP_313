@@ -8,7 +8,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
+import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.RoleServiceImpl;
+import ru.kata.spring.boot_security.demo.service.UserService;
 import ru.kata.spring.boot_security.demo.service.UserServiceImpl;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -22,8 +24,8 @@ import java.util.Set;
 @PreAuthorize("hasRole('ADMIN')")
 public class AdminController {
 
-    private final UserServiceImpl userService;
-    private final RoleServiceImpl roleService;
+    private final UserService userService;
+    private final RoleService roleService;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
@@ -48,6 +50,7 @@ public class AdminController {
     @PostMapping("/save-user")
     public String saveUser(@ModelAttribute("user") User newUser,
                            @RequestParam(value = "roles", required = false) List<Long> roleIds) {
+        newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
         userService.createUserWithRoles(newUser, roleIds);
         return "redirect:/admin";
     }
@@ -62,8 +65,7 @@ public class AdminController {
     @PostMapping("delete-user")
     public String deleteUser(@RequestParam("id") Long id, Principal principal) {
         userService.deleteUserWithChecks(id, principal.getName());
-        return principal.getName().equals(userService.findById(id).getUsername())
-                ? "redirect:/login" : "redirect:/admin";
+        return "redirect:/admin";
     }
 
 }
