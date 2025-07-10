@@ -132,59 +132,59 @@
 
                     <!-- ===== Edit modal ===== -->
                     <div class="modal fade" th:id="'edit_' + ${u.id}">
-                      <div class="modal-dialog">
-                        <div class="modal-content">
-                          <form th:action="@{/admin/update-user}" method="post">
-                            <div class="modal-header">
-                              <h5 class="modal-title">Edit user</h5>
-                              <button class="btn-close" data-bs-dismiss="modal"></button>
-                            </div>
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <form th:action="@{/admin/update-user}" method="post">
+                          <div class="modal-header">
+                            <h5 class="modal-title">Edit user</h5>
+                            <button class="btn-close" data-bs-dismiss="modal"></button>
+                          </div>
 
-                            <div class="modal-body text-center">
-                              <input type="hidden" name="id" th:value="${u.id}">
-                              <div class="mb-2">
-                                <label class="d-block fw-bold">ID</label>
-                                <input class="form-control mx-auto w-50" th:value="${u.id}" readonly>
-                              </div>
-                              <div class="mb-2">
-                                <label class="d-block fw-bold">First name</label>
-                                <input class="form-control mx-auto w-50" name="firstName" th:value="${u.firstName}">
-                              </div>
-                              <div class="mb-2">
-                                <label class="d-block fw-bold">Last name</label>
-                                <input class="form-control mx-auto w-50" name="lastName" th:value="${u.lastName}">
-                              </div>
-                              <div class="mb-2">
-                                <label class="d-block fw-bold">Age</label>
-                                <input type="number" class="form-control mx-auto w-50" name="age" th:value="${u.age}">
-                              </div>
-                              <div class="mb-2">
-                                <label class="d-block fw-bold">Email</label>
-                                <input type="email" class="form-control mx-auto w-50" name="email" th:value="${u.email}">
-                              </div>
-                              <div class="mb-2">
-                                <label class="d-block fw-bold">Password</label>
-                                <input type="password" class="form-control mx-auto w-50" name="password">
-                              </div>
-                              <div class="mb-2">
-                                <label class="d-block fw-bold">Roles</label>
-                                <select multiple size="2" class="form-select mx-auto w-50" name="roles">
-                                  <option th:each="r : ${roles}"
-                                          th:value="${r.id}"
-                                          th:text="${r.name}"
-                                          th:selected="${u.roles.contains(r)}"></option>
-                                </select>
-                              </div>
+                          <div class="modal-body text-center">
+                            <input type="hidden" name="id" th:value="${u.id}">
+                            <div class="mb-2">
+                              <label class="d-block fw-bold">ID</label>
+                              <input class="form-control mx-auto w-50" th:value="${u.id}" readonly>
                             </div>
+                            <div class="mb-2">
+                              <label class="d-block fw-bold">First name</label>
+                              <input class="form-control mx-auto w-50" name="firstName" th:value="${u.firstName}">
+                            </div>
+                            <div class="mb-2">
+                              <label class="d-block fw-bold">Last name</label>
+                              <input class="form-control mx-auto w-50" name="lastName" th:value="${u.lastName}">
+                            </div>
+                            <div class="mb-2">
+                              <label class="d-block fw-bold">Age</label>
+                              <input type="number" class="form-control mx-auto w-50" name="age" th:value="${u.age}">
+                            </div>
+                            <div class="mb-2">
+                              <label class="d-block fw-bold">Email</label>
+                              <input type="email" class="form-control mx-auto w-50" name="email" th:value="${u.email}">
+                            </div>
+                            <div class="mb-2">
+                              <label class="d-block fw-bold">Password</label>
+                              <input type="password" class="form-control mx-auto w-50" name="password">
+                            </div>
+                            <div class="mb-2">
+                              <label class="d-block fw-bold">Roles</label>
+                              <select multiple size="2" class="form-select mx-auto w-50" name="roles">
+                                <option th:each="r : ${roles}"
+                                        th:value="${r.id}"
+                                        th:text="${r.name}"
+                                        th:selected="${u.roles.contains(r)}"></option>
+                              </select>
+                            </div>
+                          </div>
 
-                            <div class="modal-footer">
-                              <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                              <button class="btn btn-success" type="submit">Edit</button>
-                            </div>
-                          </form>
-                        </div>
+                          <div class="modal-footer">
+                            <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button class="btn btn-success" type="submit">Edit</button>
+                          </div>
+                        </form>
                       </div>
                     </div>
+                  </div>
 
                     <!-- ===== Delete modal ===== -->
                     <div class="modal fade" th:id="'delete_' + ${u.id}">

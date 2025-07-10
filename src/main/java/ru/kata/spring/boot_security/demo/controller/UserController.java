@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
+import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.RoleServiceImpl;
+import ru.kata.spring.boot_security.demo.service.UserService;
 import ru.kata.spring.boot_security.demo.service.UserServiceImpl;
 
 import java.security.Principal;
@@ -18,13 +20,14 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("/user")
 public class UserController {
-    private UserServiceImpl userServiceImpl;
-    private RoleServiceImpl roleServiceImpl;
+
+    private final UserService userServiceImpl;
+    private final RoleService roleServiceImpl;
 
 
     @Autowired
-    public UserController(UserServiceImpl userService,
-                          RoleServiceImpl roleService) {
+    public UserController(UserService userService,
+                          RoleService roleService) {
         this.userServiceImpl = userService;
         this.roleServiceImpl = roleService;
     }
@@ -40,12 +43,6 @@ public class UserController {
         model.addAttribute("formattedRoles", RoleServiceImpl.humanRoles(u.getRoles()));
 
         return "user";
-    }
-
-    public static String humanRoles(Set<Role> roles) {
-        return roles.stream()
-                .map(r -> r.getName().replace("ROLE_", ""))
-                .collect(Collectors.joining(" "));
     }
 
 }

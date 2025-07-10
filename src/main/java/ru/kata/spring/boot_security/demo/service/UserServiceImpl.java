@@ -20,9 +20,9 @@ import java.util.stream.Collectors;
 @Transactional
 public class UserServiceImpl implements UserService, UserDetailsService {
 
-    private UserRepository userRepository;
-    private PasswordEncoder passwordEncoder;
-    private RoleService roleService;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final RoleService roleService;
 
     public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, RoleService roleService) {
         this.userRepository = userRepository;
@@ -37,12 +37,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public List<User> findAllUsers() {
-        List<User> users = userRepository.findAll();
-        return users;
+        return userRepository.findAll();
     }
 
     @Override
     public User saveUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
@@ -60,6 +60,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         userRepository.deleteById(id);
     }
 
+    @Override
     public User findById(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(()-> new UsernameNotFoundException("Пользователь не найден"));
@@ -117,12 +118,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public boolean hasRole(User user, String role) {
         return true;
-    }
-
-    public String getFormattedRoles(Set<Role> roles) {
-        return roles.stream()
-                .map(r -> r.getName().replace("ROLE_", ""))
-                .collect(Collectors.joining(" "));
     }
 
 
